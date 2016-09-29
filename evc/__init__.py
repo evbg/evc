@@ -14,54 +14,56 @@ class Evc(object):
         self.api = api
         self.content_type = content_type
         self.headers = {'Content-Type': content_type}
+        self.response = None
+
+    def __return(self, return_json=True):
+        if return_json:
+            try:
+                return self.response.json()
+            except ValueError:
+                return None
+        else:
+            return self.response.text
 
     def get(self, collection, _id=None, where=None):
+        kwargs = {'headers': self.headers}
         if _id is not None:
             url = '{}/{}/{}'.format(self.api, collection, _id)
-            kwargs = {'headers': self.headers}
         else:
             url = '{}/{}'.format(self.api, collection)
-            kwargs = {'headers': self.headers}
             if where is not None:
                 kwargs['params'] = {'where': json.dumps(where)}
-        return json.loads(requests.get(url, **kwargs).text)
+        self.response = requests.get(url, **kwargs)
+        return self.__return()
 
-    def get_by_id(self, collection, _id):
-        url = '{}/{}/{}'.format(self.api, collection, _id)
-        return json.loads(requests.get(url).text)
-
-    def get_items(self, collection, _id=None, where=None):
-        return self.get(collection, _id, where).get('_items', [{}])
-
-    def get_first_item(self, collection, _id=None, where=None):
-        return self.get_items(collection, _id, where)[0]
+    def get_items(self, collection, where=None):
+        return self.get(collection, where=where).get('_items', [{}])
 
     def post(self, collection, data):
-        return json.loads(
-            requests.post(
-                '{}/{}'.format(self.api, collection),
-                headers=self.headers,
-                data=json.dumps(data)
-            ).text
+        self.response = requests.post(
+            '{}/{}'.format(self.api, collection),
+            headers=self.headers,
+            data=json.dumps(data)
         )
+        return self.__return()
 
     def patch(self, collection, _id, edit_tag, data):
-        return json.loads(
-            requests.patch(
-                '{}/{}/{}'.format(self.api, collection, _id),
-                headers={
-                    'Content-Type': self.content_type,
-                    'If-Match': edit_tag
-                },
-                data=json.dumps(data)
-            ).text
+        self.response = requests.patch(
+            '{}/{}/{}'.format(self.api, collection, _id),
+            headers={
+                'Content-Type': self.content_type,
+                'If-Match': edit_tag
+            },
+            data=json.dumps(data)
         )
+        return self.__return()
 
     def delete(self, collection, _id, edit_tag):
-        return requests.delete(
-                '{}/{}/{}'.format(self.api, collection, _id),
-                headers={
-                    'Content-Type': self.content_type,
-                    'If-Match': edit_tag
-                }
-        ).text
+        self.response = requests.delete(
+            '{}/{}/{}'.format(self.api, collection, _id),
+            headers={
+                'Content-Type': self.content_type,
+                'If-Match': edit_tag
+            }
+        )
+        return self.__return(return_json=False)
