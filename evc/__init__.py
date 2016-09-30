@@ -58,6 +58,21 @@ class Evc(object):
         )
         return self.__return()
 
+    def upsert(self, collection, where, data):
+        res = self.get(collection, where=where)
+        if self.response.status_code == 200:
+            total = res.get('_meta', {}).get('total', None)
+            if total == 1:
+                item = res['_items'][0]
+                _id = item['_id']
+                _etag = item['_etag']
+                return self.patch(collection, _id, _etag, data)
+            elif total == 0:
+                return self.post(collection, data)
+            else:
+                self.response = None
+                return None
+
     def delete(self, collection, _id, edit_tag):
         self.response = requests.delete(
             '{}/{}/{}'.format(self.api, collection, _id),
