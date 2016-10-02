@@ -66,7 +66,10 @@ class Evc(object):
                 item = res['_items'][0]
                 _id = item['_id']
                 _etag = item['_etag']
-                return self.patch(collection, _id, _etag, data)
+                if not data:
+                    return self.delete(collection, _id, _etag)
+                else:
+                    return self.patch(collection, _id, _etag, data)
             elif total == 0:
                 return self.post(collection, data)
             else:
