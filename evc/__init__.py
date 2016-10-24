@@ -25,15 +25,28 @@ class Evc(object):
         else:
             return self.response.text
 
-    def get(self, collection, _id=None, where=None):
-        kwargs = {'headers': self.headers}
+    def get(self, *args, **kwargs):
+
+        kwargs_allowed = ('where', 'max_results', 'page')
+        if not args:
+            url = '{}'.format(self.api)
+            self.response = requests.get(url)
+            return self.__return()
+        else:
+            collection = args[0]
+
+        kwargs_req = {'headers': self.headers}
+        _id = kwargs.get('_id', None)
         if _id is not None:
             url = '{}/{}/{}'.format(self.api, collection, _id)
         else:
             url = '{}/{}'.format(self.api, collection)
-            if where is not None:
-                kwargs['params'] = {'where': json.dumps(where)}
-        self.response = requests.get(url, **kwargs)
+        params = dict((k, v) for (k, v) in
+                      map(lambda x: (x, kwargs.get(x, None)), kwargs_allowed)
+                      if v is not None)
+        if params != {}:
+            kwargs_req['params'] = params
+        self.response = requests.get(url, **kwargs_req)
         return self.__return()
 
     def get_items(self, collection, where=None):
