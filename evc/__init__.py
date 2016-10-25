@@ -28,6 +28,14 @@ class Evc(object):
     def get(self, *args, **kwargs):
 
         kwargs_allowed = ('where', 'max_results', 'page', 'version')
+
+        def get_kwarg(key):
+            kwarg = kwargs.get(key, None)
+            if type(kwarg) is dict:
+                return json.dumps(kwarg)
+            else:
+                return kwarg
+
         if not args:
             url = '{}'.format(self.api)
             self.response = requests.get(url)
@@ -41,8 +49,8 @@ class Evc(object):
             url = '{}/{}/{}'.format(self.api, collection, _id)
         else:
             url = '{}/{}'.format(self.api, collection)
-        params = dict((k, json.dumps(v)) for (k, v) in
-                      map(lambda x: (x, kwargs.get(x, None)), kwargs_allowed)
+        params = dict((k, v) for (k, v) in
+                      map(lambda x: (x, get_kwarg(x)), kwargs_allowed)
                       if v is not None)
         if params != {}:
             kwargs_req['params'] = params
