@@ -41,7 +41,7 @@ class Evc(object):
             url = '{}/{}/{}'.format(self.api, collection, _id)
         else:
             url = '{}/{}'.format(self.api, collection)
-        params = dict((k, v) for (k, v) in
+        params = dict((k, json.dumps(v)) for (k, v) in
                       map(lambda x: (x, kwargs.get(x, None)), kwargs_allowed)
                       if v is not None)
         if params != {}:
@@ -85,9 +85,8 @@ class Evc(object):
                     return self.patch(collection, _id, _etag, data)
             elif total == 0:
                 return self.post(collection, data)
-            else:
-                self.response = None
-                return None
+        else:
+            return res 
 
     def delete(self, collection, _id, edit_tag):
         self.response = requests.delete(
