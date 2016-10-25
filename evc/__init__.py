@@ -94,7 +94,7 @@ class Evc(object):
             elif total == 0:
                 return self.post(collection, data)
         else:
-            return res 
+            return res
 
     def delete(self, collection, _id, edit_tag):
         self.response = requests.delete(
