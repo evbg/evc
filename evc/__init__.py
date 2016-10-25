@@ -27,7 +27,7 @@ class Evc(object):
 
     def get(self, *args, **kwargs):
 
-        kwargs_allowed = ('where', 'max_results', 'page')
+        kwargs_allowed = ('where', 'max_results', 'page', 'version')
         if not args:
             url = '{}'.format(self.api)
             self.response = requests.get(url)
