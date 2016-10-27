@@ -79,7 +79,7 @@ class Evc(object):
         )
         return self.__return()
 
-    def upsert(self, collection, where, data):
+    def upsert(self, collection, where, data, insert=True):
         res = self.get(collection, where=where)
         if self.response.status_code == 200:
             total = res.get('_meta', {}).get('total', None)
@@ -92,9 +92,17 @@ class Evc(object):
                 else:
                     return self.patch(collection, _id, _etag, data)
             elif total == 0:
-                return self.post(collection, data)
+                if insert:
+                    return self.post(collection, data)
+                else:
+                    #  Return 404 (HTTP status code) with response from Eve
+                    return self.patch(collection, None, None, None)
         else:
             return res
+
+    def update(self, *args, **kwargs):
+        kwargs['insert'] = False
+        return self.upsert(*args, **kwargs)
 
     def delete(self, collection, _id, edit_tag):
         self.response = requests.delete(
