@@ -27,7 +27,7 @@ class Evc(object):
 
     def get(self, *args, **kwargs):
 
-        kwargs_allowed = ('where', 'max_results', 'page', 'version')
+        kwargs_allowed = ('where', 'max_results', 'page', 'version', 'sort')
 
         def get_kwarg(key):
             kwarg = kwargs.get(key, None)
