@@ -63,6 +63,9 @@ class Evc(object):
         self.response = requests.get(url, **kwargs_req)
         return self.__return()
 
+    def get_by_id(self, collection, _id):
+        return self.get(collection, _id)
+
     def get_items(self, collection, where=None):
         return self.get(collection, where=where).get('_items', [{}])
 
