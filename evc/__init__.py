@@ -67,7 +67,7 @@ class Evc(object):
         return self.get(collection, _id)
 
     def get_items(self, collection, where=None):
-        return self.get(collection, where=where).get('_items', [{}])
+        return self.get(collection, where=where).get('_items', [])
 
     def post(self, collection, data):
         self.response = requests.post(
