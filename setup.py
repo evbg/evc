@@ -21,8 +21,7 @@ setup(
     license="MIT License",
     author="Evgeny V. Bogodukhov",
     author_email="b@evbg.ru",
-    url="https://github.com/boevgeny/evc",
-    download_url="https://github.com/boevgeny/evc/downloads",
+    url="https://github.com/evbg/evc",
     platforms=["any"],
     packages=[
         "evc",
