@@ -30,6 +30,7 @@ class Evc(object):
 
     def get(self, *args, **kwargs):
 
+        _id = None
         kwargs_allowed = ('where', 'max_results', 'page', 'version', 'sort')
 
         def get_kwarg(key):
@@ -45,9 +46,11 @@ class Evc(object):
             return self.__return()
         else:
             collection = args[0]
+            if len(args) > 1:
+                _id = args[1]
 
         kwargs_req = {'headers': self.headers}
-        _id = kwargs.get('_id', None)
+        _id = _id or kwargs.get('_id', None)
         if _id is not None:
             url = '{}/{}/{}'.format(self.api, collection, _id)
         else:
@@ -60,8 +63,15 @@ class Evc(object):
         self.response = requests.get(url, **kwargs_req)
         return self.__return()
 
+    def get_by_id(self, collection, _id):
+        return self.get(collection, _id)
+
     def get_items(self, collection, where=None):
-        return self.get(collection, where=where).get('_items', [{}])
+        return self.get(collection, where=where).get('_items', [])
+
+    def get_first_item(self, collection, where=None):
+        items = self.get_items(collection, where)
+        return items[0] if items else {}
 
     def post(self, collection, data):
         self.response = requests.post(
