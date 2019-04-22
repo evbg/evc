@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import simplejson as json
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 __all__ = ['Evc']
 
