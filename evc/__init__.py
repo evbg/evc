@@ -107,9 +107,9 @@ class Evc(object):
             elif total == 0:
                 if insert:
                     return self.post(collection, data)
-                else:
-                    #  Return 404 (HTTP status code) with response from Eve
-                    return self.patch(collection, None, None, None)
+
+            #  Return 404 (HTTP status code) with response from Eve
+            return self.patch(collection, None, None, None)
         else:
             return res
 
