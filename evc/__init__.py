@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""
+
+Evc
+~~~
+
+A simple wrapper over "requests" HTTP library, which uses json format for
+transferring, with automatic decoding to the Python dictionary and back when
+executing HTTP requests to the REST-API server based on the "Eve" framework.
+
+"""
+
 import requests
 try:
     import simplejson as json
