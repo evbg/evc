@@ -1,3 +1,12 @@
+## 0.4.3
+
+### Features
+- added integration tests
+- added automatic testing and build tools
+
+### Fixes
+- reformatted source code via 'black' tool
+
 ## 0.4.2
 
 ### Fixes
