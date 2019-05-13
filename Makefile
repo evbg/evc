@@ -10,10 +10,10 @@ test: clean
 	tox
 
 dist:
-	python setup.py sdist bdist_wheel
+	tox -c tox_dist.ini
 
 check:
-	python setup.py check
+	python3 -m twine check dist/*
 
 clean:
 	find . -name '*.pyc' -delete
