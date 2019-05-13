@@ -1,4 +1,4 @@
-.PHONY: pre-commit dev test dist check clean
+.PHONY: pre-commit dev test dist check test-upload clean
 
 pre-commit:
 	pre-commit run --all-files
@@ -14,6 +14,9 @@ dist:
 
 check:
 	python3 -m twine check dist/*
+
+test-upload:
+	python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 clean:
 	find . -name '*.pyc' -delete

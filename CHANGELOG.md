@@ -1,3 +1,6 @@
+## 0.4.4
+- add test-upload target to Makefile
+
 ## 0.4.3
 
 ### Features
