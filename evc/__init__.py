@@ -12,6 +12,7 @@ executing HTTP requests to the REST-API server based on the "Eve" framework.
 """
 
 import requests
+
 try:
     import simplejson as json
 except ImportError:
@@ -21,10 +22,7 @@ __all__ = ['Evc']
 
 
 class Evc(object):
-
-    def __init__(self,
-                 api='http://127.0.0.1:5005',
-                 content_type='application/json'):
+    def __init__(self, api='http://127.0.0.1:5005', content_type='application/json'):
         self.api = api
         self.content_type = content_type
         self.headers = {'Content-Type': content_type}
@@ -66,9 +64,11 @@ class Evc(object):
             url = '{}/{}/{}'.format(self.api, collection, _id)
         else:
             url = '{}/{}'.format(self.api, collection)
-        params = dict((k, v) for (k, v) in
-                      ((x, get_kwarg(x)) for x in kwargs_allowed)
-                      if v is not None)
+        params = dict(
+            (k, v)
+            for (k, v) in ((x, get_kwarg(x)) for x in kwargs_allowed)
+            if v is not None
+        )
         if params != {}:
             kwargs_req['params'] = params
         self.response = requests.get(url, **kwargs_req)
@@ -88,18 +88,15 @@ class Evc(object):
         self.response = requests.post(
             '{}/{}'.format(self.api, collection),
             headers=self.headers,
-            data=json.dumps(data)
+            data=json.dumps(data),
         )
         return self.__return()
 
     def patch(self, collection, _id, edit_tag, data):
         self.response = requests.patch(
             '{}/{}/{}'.format(self.api, collection, _id),
-            headers={
-                'Content-Type': self.content_type,
-                'If-Match': edit_tag
-            },
-            data=json.dumps(data)
+            headers={'Content-Type': self.content_type, 'If-Match': edit_tag},
+            data=json.dumps(data),
         )
         return self.__return()
 
@@ -131,9 +128,6 @@ class Evc(object):
     def delete(self, collection, _id, edit_tag):
         self.response = requests.delete(
             '{}/{}/{}'.format(self.api, collection, _id),
-            headers={
-                'Content-Type': self.content_type,
-                'If-Match': edit_tag
-            }
+            headers={'Content-Type': self.content_type, 'If-Match': edit_tag},
         )
         return self.__return(return_json=False)
