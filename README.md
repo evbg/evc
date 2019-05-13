@@ -1,15 +1,53 @@
-#########################################################
-evc - Simple client for the EVE Python REST API Framework
-#########################################################
+# evc
 
-Example of usage
-################
+**evc** - a simple wrapper over "requests" HTTP library, which uses json format for transferring, with automatic decoding to the Python dictionary and back when executing HTTP requests to the REST-API server based on the "Eve" framework.
 
-First, run the server "Eve"
-===========================
 
-::
+## Getting Started
 
+### Prerequisites
+
+Evc has been tested on the following versions of Python: 2.7, 3.4, 3.5, 3.6, 3.7, pypy, pypy3 and uses the "requests" and "simplejson" libraries.
+
+
+### Installing
+
+#### Manual install
+```
+git clone https://github.com/evbg/evc.git
+cd evc
+python setup.py install
+```
+
+#### Installing directly from the [repository](https://github.com/evbg/evc) on GitHub.com
+```
+pip install git+https://github.com/evbg/evc.git
+```
+
+
+## Running the tests
+
+### Integration tests with the Eve framework
+
+#### Prerequisites
+
+To run tests on a localhost, it is necessary that the MongoDB service is started with access control disabled.
+
+#### Running the tests via [tox](https://tox.readthedocs.io/) tool
+```
+git clone https://github.com/evbg/evc.git
+cd evc
+tox
+```
+
+
+## Example of usage
+
+The following example shows the use of evc through the Python interactive shell:
+
+### First, run the server "Eve"
+
+```
     Python 2.7.5 (default, Mar  9 2014, 22:15:05)
     [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
@@ -21,12 +59,11 @@ First, run the server "Eve"
     >>> app = Eve(settings=settings)
     >>> app.run()
      * Running on http://127.0.0.1:5555/ (Press CTRL+C to quit)
+```
 
-Second, run the client "Evc"
-============================
+### Second, run the client "Evc"
 
-::
-
+```
     Python 2.7.5 (default, Mar  9 2014, 22:15:05)
     Type "copyright", "credits" or "license" for more information.
 
@@ -92,3 +129,19 @@ Second, run the client "Evc"
      u'_links': {u'parent': {u'href': u'/', u'title': u'home'},
       u'self': {u'href': u'persons', u'title': u'persons'}},
      u'_meta': {u'max_results': 25, u'page': 1, u'total': 0}}
+```
+
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning.
+
+
+## Authors
+
+* **Evgeny V. Bogodukhov** - *Initial work* - [evbg](https://github.com/evbg)
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
