@@ -15,7 +15,7 @@ except EnvironmentError:
 
 setup(
     name="evc",
-    version="0.4.0",
+    version="0.4.1",
     description=DESCRIPTION,
     long_description=long_description,
     license="MIT License",
