@@ -56,7 +56,7 @@ class Evc(object):
         else:
             url = '{}/{}'.format(self.api, collection)
         params = dict((k, v) for (k, v) in
-                      map(lambda x: (x, get_kwarg(x)), kwargs_allowed)
+                      ((x, get_kwarg(x)) for x in kwargs_allowed)
                       if v is not None)
         if params != {}:
             kwargs_req['params'] = params
