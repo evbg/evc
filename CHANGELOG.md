@@ -1,4 +1,12 @@
+## 0.4.5
+
+### Misc
+- Information about the pypi package has been added to the README.md
+- Added 'Contents' block to the README.md and some fixes.
+
 ## 0.4.4
+
+### Misc
 - add test-upload target to Makefile
 
 ## 0.4.3
