@@ -1,3 +1,10 @@
+[![Latest version on
+PyPi](https://badge.fury.io/py/evc.svg)](https://badge.fury.io/py/evc)
+[![Supported Python
+versions](https://img.shields.io/pypi/pyversions/evc.svg)](https://pypi.org/project/evc/)
+[![Code style:
+black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+
 # evc
 
 **evc** - a simple wrapper over "requests" HTTP library, which uses json format for transferring, with automatic decoding to the Python dictionary and back when executing HTTP requests to the REST-API server based on the "Eve" framework.
