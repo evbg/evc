@@ -86,8 +86,8 @@ class Evc(object):
     def get_items(self, *args, **kwargs):
         return self.get(*args, **kwargs).get('_items', [])
 
-    def get_first_item(self, collection, where=None):
-        items = self.get_items(collection, where)
+    def get_first_item(self, *args, **kwargs):
+        items = self.get_items(*args, **kwargs)
         return items[0] if items else {}
 
     def post(self, collection, data):
