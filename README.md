@@ -1,16 +1,35 @@
+[![Latest version on
+PyPi](https://badge.fury.io/py/evc.svg)](https://badge.fury.io/py/evc)
+[![Supported Python
+versions](https://img.shields.io/pypi/pyversions/evc.svg)](https://pypi.org/project/evc/)
+[![Code style:
+black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+
 # evc
 
 **evc** - a simple wrapper over "requests" HTTP library, which uses json format for transferring, with automatic decoding to the Python dictionary and back when executing HTTP requests to the REST-API server based on the "Eve" framework.
 
+---
+
+*Contents:*
+**[Installation](#installation)** |
+**[Requirements](#requirements)** |
+**[Running the tests](#running-the-tests)** |
+**[Example of usage](#example-of-usage)** |
+**[Versioning](#versioning)** |
+**[Authors](#authors)** |
+**[License](#license)**
+
+---
 
 ## Getting Started
 
-### Prerequisites
+### Installation
 
-Evc has been tested on the following versions of Python: 2.7, 3.4, 3.5, 3.6, 3.7, pypy, pypy3 and uses the "requests" and "simplejson" libraries.
-
-
-### Installing
+#### From pip
+```
+pip install --upgrade evc
+```
 
 #### Manual install
 ```
@@ -25,7 +44,14 @@ pip install git+https://github.com/evbg/evc.git
 ```
 
 
+### Requirements
+
+evc requires [requests](https://pypi.org/project/requests/) and [simplejson](https://pypi.org/project/simplejson/) libraries.
+
+
 ## Running the tests
+
+Evc has been tested on the following versions of Python: 2.7, 3.4, 3.5, 3.6, 3.7, pypy, pypy3.
 
 ### Integration tests with the Eve framework
 
