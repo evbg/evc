@@ -1,3 +1,10 @@
+## 0.5.0
+
+### Refactoring
+- ref: move hardcoded kwargs_allowed param to \_\_init\_\_()
+- ref get_items(): remove hardcoded args and kwargs
+- ref get_first_item(): remove hardcoded args and kwargs
+
 ## 0.4.5
 
 ### Misc

@@ -22,11 +22,17 @@ __all__ = ['Evc']
 
 
 class Evc(object):
-    def __init__(self, api='http://127.0.0.1:5005', content_type='application/json'):
+    def __init__(
+        self,
+        api='http://127.0.0.1:5005',
+        content_type='application/json',
+        get_kwargs_allowed=('where', 'max_results', 'page', 'version', 'sort'),
+    ):
         self.api = api
         self.content_type = content_type
         self.headers = {'Content-Type': content_type}
         self.response = None
+        self.get_kwargs_allowed = {x for x in get_kwargs_allowed}
 
     def __return(self, return_json=True):
         if return_json:
@@ -40,7 +46,7 @@ class Evc(object):
     def get(self, *args, **kwargs):
 
         _id = None
-        kwargs_allowed = ('where', 'max_results', 'page', 'version', 'sort')
+        kwargs_allowed = self.get_kwargs_allowed
 
         def get_kwarg(key):
             kwarg = kwargs.get(key, None)
@@ -77,11 +83,11 @@ class Evc(object):
     def get_by_id(self, collection, _id):
         return self.get(collection, _id)
 
-    def get_items(self, collection, where=None):
-        return self.get(collection, where=where).get('_items', [])
+    def get_items(self, *args, **kwargs):
+        return self.get(*args, **kwargs).get('_items', [])
 
-    def get_first_item(self, collection, where=None):
-        items = self.get_items(collection, where)
+    def get_first_item(self, *args, **kwargs):
+        items = self.get_items(*args, **kwargs)
         return items[0] if items else {}
 
     def post(self, collection, data):
