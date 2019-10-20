@@ -110,6 +110,10 @@ class Evc(object):
         kwargs['_f'] = requests.patch
         return change(*args, **kwargs)
 
+    def replace(self, *args, **kwargs):
+        kwargs['_f'] = requests.put
+        return change(*args, **kwargs)
+
     def upsert(self, collection, where, data, insert=True):
         res = self.get(collection, where=where)
         if self.response.status_code == 200:
