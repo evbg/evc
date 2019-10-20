@@ -1,3 +1,8 @@
+## 0.6.0
+
+### Features
+- Added Evc.replace() method
+
 ## 0.5.0
 
 ### Refactoring
