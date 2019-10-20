@@ -98,15 +98,23 @@ class Evc(object):
         )
         return self.__return()
 
-    def patch(self, collection, _id, edit_tag, data):
-        self.response = requests.patch(
+    def change(self, collection, _id, edit_tag, data, _f):
+        self.response = _f(
             '{}/{}/{}'.format(self.api, collection, _id),
             headers={'Content-Type': self.content_type, 'If-Match': edit_tag},
             data=json.dumps(data),
         )
         return self.__return()
 
-    def upsert(self, collection, where, data, insert=True):
+    def patch(self, *args, **kwargs):
+        kwargs['_f'] = requests.patch
+        return self.change(*args, **kwargs)
+
+    def replace(self, *args, **kwargs):
+        kwargs['_f'] = requests.put
+        return self.change(*args, **kwargs)
+
+    def upsert(self, collection, where, data, insert=True, replace=False):
         res = self.get(collection, where=where)
         if self.response.status_code == 200:
             total = res.get('_meta', {}).get('total', None)
@@ -117,7 +125,10 @@ class Evc(object):
                 if not data:
                     return self.delete(collection, _id, _etag)
                 else:
-                    return self.patch(collection, _id, _etag, data)
+                    if replace:
+                        return self.replace(collection, _id, _etag, data)
+                    else:
+                        return self.patch(collection, _id, _etag, data)
             elif total == 0:
                 if insert:
                     return self.post(collection, data)

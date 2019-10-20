@@ -120,6 +120,11 @@ class TestEvc(unittest.TestCase):
                     {'data': {'email': 'bob3@bobmail.com'}},
                     {'data': {'email': 'bob4@bobmail.com'}},
                 ],
+                'replaces': [
+                    {'data': {'x': 1}},
+                    {'data': {'y': {'z': 2}}},
+                    {'data': {'email': 'bob5@bobmail.com', 'name': 'Bob', 'age': 23}},
+                ],
             },
         ]
 
@@ -231,6 +236,7 @@ class TestEvc(unittest.TestCase):
             _etag = response.get('_etag', None)
 
             patch_data_list = post_data.get('patches', [])
+            replace_data_list = post_data.get('replaces', [])
             if patch_data_list:
 
                 def _patch(_etag, patch_data):
@@ -242,7 +248,17 @@ class TestEvc(unittest.TestCase):
                     _etag = response.get('_etag', None)
                     return _etag
 
-                reduce(_patch, patch_data_list, _etag)
+                def _replace(_etag, replace_data):
+                    time.sleep(1)
+                    response = evc.replace(collection, _id, _etag, replace_data['data'])
+                    self.patch_asserts(response)
+                    _replace_id = response.get('_id', None)
+                    post_ids.append(_replace_id)
+                    _etag = response.get('_etag', None)
+                    return _etag
+
+                _etag = reduce(_patch, patch_data_list, _etag)
+                _etag = reduce(_replace, replace_data_list, _etag)
             else:
                 post_ids.append(_id)
 
