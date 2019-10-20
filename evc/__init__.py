@@ -98,13 +98,17 @@ class Evc(object):
         )
         return self.__return()
 
-    def patch(self, collection, _id, edit_tag, data):
-        self.response = requests.patch(
+    def change(self, collection, _id, edit_tag, data, _f):
+        self.response = _f(
             '{}/{}/{}'.format(self.api, collection, _id),
             headers={'Content-Type': self.content_type, 'If-Match': edit_tag},
             data=json.dumps(data),
         )
         return self.__return()
+
+    def patch(self, *args, **kwargs):
+        kwargs['_f'] = requests.patch
+        return change(*args, **kwargs)
 
     def upsert(self, collection, where, data, insert=True):
         res = self.get(collection, where=where)
