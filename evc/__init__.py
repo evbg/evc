@@ -108,11 +108,11 @@ class Evc(object):
 
     def patch(self, *args, **kwargs):
         kwargs['_f'] = requests.patch
-        return change(*args, **kwargs)
+        return self.change(*args, **kwargs)
 
     def replace(self, *args, **kwargs):
         kwargs['_f'] = requests.put
-        return change(*args, **kwargs)
+        return self.change(*args, **kwargs)
 
     def upsert(self, collection, where, data, insert=True, replace=False):
         res = self.get(collection, where=where)
