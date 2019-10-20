@@ -114,7 +114,7 @@ class Evc(object):
         kwargs['_f'] = requests.put
         return change(*args, **kwargs)
 
-    def upsert(self, collection, where, data, insert=True):
+    def upsert(self, collection, where, data, insert=True, replace=False):
         res = self.get(collection, where=where)
         if self.response.status_code == 200:
             total = res.get('_meta', {}).get('total', None)
@@ -125,7 +125,10 @@ class Evc(object):
                 if not data:
                     return self.delete(collection, _id, _etag)
                 else:
-                    return self.patch(collection, _id, _etag, data)
+                    if replace:
+                        return self.replace(collection, _id, _etag, data)
+                    else:
+                        return self.patch(collection, _id, _etag, data)
             elif total == 0:
                 if insert:
                     return self.post(collection, data)
