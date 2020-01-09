@@ -1,3 +1,9 @@
+## 0.6.1
+
+### Fixes
+- fix get_items(): returned backward compatibility with v0.4.5, which was broken in v0.5.0
+- added more tests for get_items()
+
 ## 0.6.0
 
 ### Features
