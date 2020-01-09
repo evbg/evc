@@ -341,6 +341,23 @@ class TestEvc(unittest.TestCase):
         self.assertNotEqual(response, [])
         self.assertEqual(len(response), len(self.post_data))
 
+    def test_0231_get_items(self):
+        evc = self.evc
+        where = {'name': 'Bob'}
+        # where - positional argument with index 1
+        response = evc.get_items(self.collection, where)
+        self.assertIsInstance(response, list)
+        self.assertNotEqual(response, [])
+        self.assertEqual(len(response), 1)
+
+    def test_0232_get_items(self):
+        evc = self.evc
+        where = {'$or': [{'name': 'Bob'}, {'age': 20}]}
+        response = evc.get_items(self.collection, where=where)
+        self.assertIsInstance(response, list)
+        self.assertNotEqual(response, [])
+        self.assertEqual(len(response), 2)
+
     def test_024_get_first_item(self):
         evc = self.evc
         collection = self.collection
@@ -367,6 +384,23 @@ class TestEvc(unittest.TestCase):
             map2(lambda _assert: _assert(response), asserts)
 
         map2(_upsert, self.upsert_data)
+
+    def test_041_get_items(self):
+        evc = self.evc
+        where = {'name': 'Carl', 'age': 60}
+        # where - positional argument with index 1
+        response = evc.get_items(self.collection, where)
+        self.assertIsInstance(response, list)
+        self.assertNotEqual(response, [])
+        self.assertEqual(len(response), 1)
+
+    def test_042_get_items(self):
+        evc = self.evc
+        where = {'$or': [{'name': 'Bob'}, {'age': 60}]}
+        response = evc.get_items(self.collection, where=where)
+        self.assertIsInstance(response, list)
+        self.assertNotEqual(response, [])
+        self.assertEqual(len(response), 2)
 
     def test_990_delete_all(self):
         evc = self.evc

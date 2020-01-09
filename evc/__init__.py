@@ -84,7 +84,10 @@ class Evc(object):
         return self.get(collection, _id)
 
     def get_items(self, *args, **kwargs):
-        return self.get(*args, **kwargs).get('_items', [])
+        assert len(args) <= 2
+        if len(args) == 2:
+            kwargs['where'] = args[1]
+        return self.get(*args[:1], **kwargs).get('_items', [])
 
     def get_first_item(self, *args, **kwargs):
         items = self.get_items(*args, **kwargs)
